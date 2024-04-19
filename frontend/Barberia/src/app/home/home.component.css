@@ -1,0 +1,48 @@
+/* Estilos para el componente Home */
+
+/* Estilos para las fotos de la peluquería */
+.peluqueria-images {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .peluqueria-image {
+    width: 30%;
+  }
+  
+  /* Estilos para los servicios destacados */
+  .destacados-container {
+    margin-bottom: 20px;
+  }
+  
+  .destacado {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .destacado h3 {
+    color: #333;
+  }
+  
+  .destacado p {
+    color: #666;
+  }
+  
+  /* Estilos para el botón de reserva */
+  .reserva-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .reserva-button:hover {
+    background-color: #0056b3;
+  }
+  

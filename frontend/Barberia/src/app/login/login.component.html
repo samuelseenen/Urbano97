@@ -1,0 +1,16 @@
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow p-4">
+    <h2 class="text-center mb-4">Iniciar sesión</h2>
+    <form>
+      <div class="form-group">
+        <label for="email" class="text-muted">Correo electrónico</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo electrónico" [(ngModel)]="email">
+      </div>
+      <div class="form-group">
+        <label for="password" class="text-muted">Contraseña</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su contraseña" [(ngModel)]="password">
+      </div>
+      <button type="button" class="btn btn-primary btn-block" (click)="login()">Iniciar sesión</button>
+    </form>
+  </div>
+</div>

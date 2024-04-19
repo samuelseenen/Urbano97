@@ -1,0 +1,26 @@
+<div class="container">
+  <full-calendar [options]="calendarOptions" class="small-calendar"></full-calendar>
+
+  <!-- Muestra las horas disponibles -->
+  <div *ngIf="selectedDate && availableHours.length > 0">
+    <h3>Horas disponibles para el {{ selectedDate }}:</h3>
+    <div class="available-hours">
+      <button *ngFor="let hour of availableHours" (click)="selectHour(hour)" class="btn btn-primary mb-2 mx-2">{{ hour }}</button>
+    </div>
+  </div>
+
+  <!-- Elegir servicio -->
+  <div *ngIf="selectedHour">
+    <h3>Elegir servicio para la hora {{ selectedHour }}:</h3>
+    <div class="services">
+      <button (click)="selectService('Corte de pelo - 15€')" class="btn btn-primary mb-2 mx-2">Corte de pelo - 15€</button>
+      <button (click)="selectService('Corte de pelo + cejas - 19€')" class="btn btn-primary mb-2 mx-2">Corte de pelo + cejas - 19€</button>
+      <button (click)="selectService('Corte de pelo + barba - 23€')" class="btn btn-primary mb-2 mx-2">Corte de pelo + barba - 23€</button>
+    </div>
+  </div>
+
+  <!-- Botón para hacer la reserva -->
+  <div *ngIf="showReservationButton">
+    <button (click)="makeReservation()" class="btn btn-success">Hacer Reserva</button>
+  </div>
+</div>
