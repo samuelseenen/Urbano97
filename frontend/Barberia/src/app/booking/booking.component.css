@@ -1,0 +1,10 @@
+.container {
+    max-width: 600px; /* Ajusta el tamaño del contenedor según sea necesario */
+  }
+  
+  .small-calendar {
+    width: 200%; /* Ajusta el ancho del calendario para que ocupe todo el ancho del contenedor */
+    max-width: 600px; /* Limita el ancho máximo del calendario */
+    margin: auto; /* Centra el calendario horizontalmente dentro del contenedor */
+  }
+  
