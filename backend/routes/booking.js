@@ -34,13 +34,12 @@ router.get('/barbers/:year/:month/:day', (req, res) => {
     });
 });
 
-// Ruta para obtener las horas disponibles de un peluquero en una fecha determinada
 router.get('/barber/:barberId/:date', (req, res) => {
     const { barberId, date } = req.params;
 
     // Consulta SQL para obtener todas las horas del peluquero
     const allHoursQuery = `
-        SELECT hora FROM horas_disponibles
+        SELECT horas FROM horas_disponibles
         WHERE id_peluquero = ?
     `;
 
@@ -51,19 +50,25 @@ router.get('/barber/:barberId/:date', (req, res) => {
             return;
         }
 
+        if (allHoursResults.length === 0) {
+            res.status(200).json({ message: 'No hay horas disponibles para este peluquero' });
+            return;
+        }
+
         const availableHours = [];
+        let completedQueries = 0;
         
         // Recorremos todas las horas disponibles del peluquero
         allHoursResults.forEach((row) => {
-            const hour = row.hora;
+            const hour = row.horas;
 
             // Consulta SQL para verificar si la hora está ocupada por alguna reserva
             const reservationQuery = `
                 SELECT * FROM reservas
-                WHERE id_peluquero = ? AND DATE(fecha) = ? AND reserva LIKE '%[${hour}]%'
+                WHERE id_peluquero = ? AND DATE(fecha) = ? AND SUBSTRING_INDEX(SUBSTRING_INDEX(reserva, ',', 4), ',', -1) = ?
             `;
 
-            connection.query(reservationQuery, [barberId, date], (err, reservationResults) => {
+            connection.query(reservationQuery, [barberId, date, hour], (err, reservationResults) => {
                 if (err) {
                     console.error('Error querying database for reservations:', err);
                     res.status(500).json({ message: 'Internal server error' });
@@ -75,13 +80,18 @@ router.get('/barber/:barberId/:date', (req, res) => {
                     availableHours.push(hour);
                 }
 
+                // Incrementamos el contador de consultas completadas
+                completedQueries++;
+
                 // Si hemos recorrido todas las horas disponibles, respondemos con las disponibles
-                if (availableHours.length === allHoursResults.length) {
+                if (completedQueries === allHoursResults.length) {
                     res.status(200).json(availableHours);
                 }
             });
         });
     });
 });
+
+
 
 module.exports = router;

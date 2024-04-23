@@ -7,4 +7,9 @@
     max-width: 600px; /* Limita el ancho máximo del calendario */
     margin: auto; /* Centra el calendario horizontalmente dentro del contenedor */
   }
-  
+
+  .barber-image {
+    width: 50px; /* Ancho deseado */
+    height: 50px; /* Altura deseada */
+    border-radius: 50%; /* Hace que la imagen sea redonda */
+}

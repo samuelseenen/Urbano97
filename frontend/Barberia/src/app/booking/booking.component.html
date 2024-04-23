@@ -1,9 +1,20 @@
 <div class="container">
   <full-calendar [options]="calendarOptions" class="small-calendar"></full-calendar>
 
-  <!-- Muestra las horas disponibles -->
-  <div *ngIf="selectedDate && availableHours.length > 0">
-    <h3>Horas disponibles para el {{ selectedDate }}:</h3>
+  <!-- Mostrar los peluqueros disponibles -->
+  <div *ngIf="showBarbers">
+    <h3>Selecciona un peluquero:</h3>
+    <div class="barbers">
+      <div *ngFor="let barber of availableBarbers" class="barber" (click)="selectBarber(barber)">
+        <img src="../../images/avatar.jpg" alt="Avatar" class="barber-image">
+        <p>{{ barber.nombre }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mostrar las horas disponibles -->
+  <div *ngIf="selectedBarber && availableHours.length > 0">
+    <h3>Horas disponibles para el {{ selectedDate }} con {{ selectedBarber.nombre }}:</h3>
     <div class="available-hours">
       <button *ngFor="let hour of availableHours" (click)="selectHour(hour)" class="btn btn-primary mb-2 mx-2">{{ hour }}</button>
     </div>
