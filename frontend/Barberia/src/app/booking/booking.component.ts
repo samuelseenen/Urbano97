@@ -76,8 +76,43 @@ export class BookingComponent {
   }
 
   makeReservation(): void {
-    // Lógica para hacer la reserva
-    console.log('Reserva realizada para:', this.selectedDate, this.selectedHour, this.selectedBarber);
+    // Verificar si se ha seleccionado una fecha, una hora y un peluquero
+    if (!this.selectedDate || !this.selectedHour || !this.selectedBarber) {
+      console.error('Error: Se deben seleccionar una fecha, una hora y un peluquero para hacer la reserva');
+      return;
+    }
+  
+    // Obtener el ID del peluquero seleccionado
+    const barberId = this.selectedBarber.id;
+  
+    // Generar una fecha en el formato YYYY-MM-DD
+    const formattedDate = this.selectedDate;
+  
+    // Obtener la hora seleccionada
+    const hour = this.selectedHour;
+  
+    // ID del cliente (temporalmente fijado en 1)
+    const clientId = 1;
+  
+    // Crear el objeto con los datos de la reserva
+    const reservationData = {
+      clientId: clientId,
+      barberId: barberId,
+      date: formattedDate,
+      hour: hour
+    };
+  
+    // Enviar la solicitud HTTP POST al backend con los datos de la reserva
+    this.http.post<any>('http://localhost:3000/reserva/reservation', reservationData).subscribe(
+      (response) => {
+        console.log('Reserva realizada con éxito:', response.message);
+      },
+      (error) => {
+        console.error('Error al hacer la reserva:', error);
+      }
+    );
   }
+  
+  
 
 }
