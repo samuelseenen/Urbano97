@@ -2,7 +2,8 @@ const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
 const loginRoutes = require('./routes/login');
-const bookingRoutes = require('./routes/booking'); // Importa las nuevas rutas de booking
+const bookingRoutes = require('./routes/booking'); // Importa las rutas de booking
+const reservationRoutes = require('./routes/reservation'); // Importa las nuevas rutas de reserva
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -32,7 +33,10 @@ app.use(cors());
 app.use('/login', loginRoutes);
 
 // Definir rutas de booking
-app.use('/booking', bookingRoutes); // Agrega las nuevas rutas de booking
+app.use('/booking', bookingRoutes);
+
+// Definir rutas de reserva
+app.use('/reserva', reservationRoutes(connection)); // Pasar la conexión como argumento
 
 // Iniciar el servidor
 app.listen(PORT, () => {
