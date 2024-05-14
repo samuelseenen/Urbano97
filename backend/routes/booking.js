@@ -18,79 +18,115 @@ router.get('/barbers/:year/:month/:day', (req, res) => {
     const barbersQuery = `
         SELECT id, nombre FROM Peluqueros
         WHERE id NOT IN (
-            SELECT id_peluquero FROM reservas
-            WHERE DATE(fecha) = ?
+            SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(reserva, ',', -2), ',', 1) AS id_peluquero FROM reservas
+            WHERE SUBSTRING_INDEX(SUBSTRING_INDEX(reserva, ',', -2), ',', 1) IS NOT NULL
         )
     `;
+
+    console.log(barbersQuery);
 
     connection.query(barbersQuery, [date], (err, barbersResults) => {
         if (err) {
             console.error('Error querying database for available barbers:', err);
-            res.status(500).json({ message: 'Internal server error' });
+            res.status(500).json({ message: 'Fallo' });
             return;
         }
 
-        res.status(200).json(barbersResults);
+        // Para cada peluquero, obtener sus horas disponibles
+        const promises = barbersResults.map((barber) => {
+            return new Promise((resolve, reject) => {
+                const barberId = barber.id;
+
+                // Consulta SQL para obtener las horas disponibles del peluquero
+                const availableHoursQuery = `
+                    SELECT TIME_FORMAT(horas, '%H:%i') AS horas FROM horas_disponibles
+                    WHERE id_peluquero = ?
+                `;
+
+                connection.query(availableHoursQuery, [barberId], (err, hoursResults) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+
+                    // Filtrar las horas disponibles para el peluquero actual
+                    const availableHours = hoursResults.map((row) => row.hora);
+
+                    // Agregar las horas disponibles al objeto del peluquero
+                    barber.availableHours = availableHours;
+
+                    resolve(barber);
+                });
+            });
+        });
+
+        // Esperar a que todas las consultas de horas estén completas
+        Promise.all(promises)
+            .then((barbersWithHours) => {
+                res.status(200).json(barbersWithHours);
+            })
+            .catch((error) => {
+                console.error('Error fetching available hours:', error);
+                res.status(500).json({ message: 'Fallo2' });
+            });
     });
 });
+
 
 router.get('/barber/:barberId/:date', (req, res) => {
     const { barberId, date } = req.params;
 
-    // Consulta SQL para obtener todas las horas del peluquero
-    const allHoursQuery = `
+    // Consulta SQL para obtener las horas disponibles del peluquero
+    const availableHoursQuery = `
         SELECT horas FROM horas_disponibles
         WHERE id_peluquero = ?
     `;
 
-    connection.query(allHoursQuery, [barberId], (err, allHoursResults) => {
+    connection.query(availableHoursQuery, [barberId], (err, allHoursResults) => {
         if (err) {
             console.error('Error querying database for all hours:', err);
             res.status(500).json({ message: 'Internal server error' });
             return;
         }
+        console.log('Horas disponibles:', allHoursResults);
+        // Consulta SQL para obtener todas las reservas del peluquero para la fecha dada
+        const reservationsQuery = `
+        SELECT reserva FROM reservas
+        WHERE id_peluquero = ? AND SUBSTRING_INDEX(SUBSTRING_INDEX(reserva, '"fecha":"', -1), '"', 1) = ?
+    `;
 
-        if (allHoursResults.length === 0) {
-            res.status(200).json({ message: 'No hay horas disponibles para este peluquero' });
+    connection.query(reservationsQuery, [barberId, date], (err, reservationResults) => {
+        if (err) {
+            console.error('Error querying database for reservations:', err);
+            res.status(500).json({ message: 'Internal server error' });
             return;
         }
-
-        const availableHours = [];
-        let completedQueries = 0;
-        
-        // Recorremos todas las horas disponibles del peluquero
-        allHoursResults.forEach((row) => {
-            const hour = row.horas;
-
-            // Consulta SQL para verificar si la hora está ocupada por alguna reserva
-            const reservationQuery = `
-                SELECT * FROM reservas
-                WHERE id_peluquero = ? AND DATE(fecha) = ? AND SUBSTRING_INDEX(SUBSTRING_INDEX(reserva, ',', 4), ',', -1) = ?
-            `;
-
-            connection.query(reservationQuery, [barberId, date, hour], (err, reservationResults) => {
-                if (err) {
-                    console.error('Error querying database for reservations:', err);
-                    res.status(500).json({ message: 'Internal server error' });
-                    return;
-                }
-
-                // Si no hay reservas para esta hora, la agregamos a las disponibles
-                if (reservationResults.length === 0) {
-                    availableHours.push(hour);
-                }
-
-                // Incrementamos el contador de consultas completadas
-                completedQueries++;
-
-                // Si hemos recorrido todas las horas disponibles, respondemos con las disponibles
-                if (completedQueries === allHoursResults.length) {
-                    res.status(200).json(availableHours);
-                }
+    
+        // Obtener las horas ocupadas de las reservas para el peluquero en la fecha dada
+        let occupiedHours = [];
+        if (reservationResults.length > 0) {
+            occupiedHours = reservationResults.map((row) => {
+                const reservation = JSON.parse(row.reserva);
+                return reservation.hora;
             });
-        });
+        }
+    
+        // Filtrar las horas disponibles
+        const availableHours = allHoursResults
+            .map((row) => row.horas)
+            .filter((hour) => !occupiedHours.includes(hour));
+        
+        // Verificar si hay horas disponibles
+        if (availableHours.length === 0) {
+            res.status(200).json({ message: 'No quedan horas disponibles para el día seleccionado' });
+        } else {
+            res.status(200).json(availableHours);
+        }
+    });
+    
     });
 });
+
 
 
 
