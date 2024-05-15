@@ -12,11 +12,14 @@
     </div>
   </div>
 
-  <!-- Mostrar las horas disponibles -->
-  <div *ngIf="selectedBarber && availableHours.length > 0">
+  <!-- Mostrar las horas disponibles o el mensaje de "No hay horas disponibles" -->
+  <div *ngIf="selectedBarber">
     <h3>Horas disponibles para el {{ selectedDate }} con {{ selectedBarber.nombre }}:</h3>
     <div class="available-hours">
+      <!-- Mostrar las horas si están disponibles -->
       <button *ngFor="let hour of availableHours" (click)="selectHour(hour)" class="btn btn-primary mb-2 mx-2">{{ hour }}</button>
+      <!-- Mostrar el mensaje si no hay horas disponibles -->
+      <p *ngIf="!availableHours.length">{{ noHoursAvailableMessage }}</p>
     </div>
   </div>
 

@@ -20,7 +20,7 @@ export class BookingComponent {
   showBarbers: boolean = false; 
   showReservationButton: boolean = false; 
   showConfirmation: boolean = false; 
-  noHoursAvailableMessage: string = ''; // Variable para almacenar el mensaje de "No hay horas disponibles"
+  noHoursAvailableMessage: string = ''; // Inicializa con una cadena vacía
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
@@ -56,13 +56,15 @@ export class BookingComponent {
   }
 
   initAvailableHours(barberId: number, date: string): void {
-    this.http.get<any[]>(`http://localhost:3000/booking/barber/${barberId}/${date}`).subscribe(
-      (allHoursResults) => {
-        // Verificar si no hay horas disponibles
-        if (allHoursResults.length === 0) {
-          this.noHoursAvailableMessage = 'No quedan horas disponibles para el día seleccionado';
+    this.http.get<any | { message: string }>(`http://localhost:3000/booking/barber/${barberId}/${date}`).subscribe(
+      (response) => {
+        if ('message' in response) {
+          // Si la respuesta tiene la propiedad 'message', significa que no hay horas disponibles
+          this.noHoursAvailableMessage = response.message;
+          this.availableHours = []; // Vaciar las horas disponibles
         } else {
-          this.availableHours = allHoursResults;
+          // Si no tiene 'message', significa que hay horas disponibles
+          this.availableHours = response;
         }
       },
       (error) => {
