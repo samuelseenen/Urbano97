@@ -23,8 +23,6 @@ router.get('/barbers/:year/:month/:day', (req, res) => {
         )
     `;
 
-    console.log(barbersQuery);
-
     connection.query(barbersQuery, [date], (err, barbersResults) => {
         if (err) {
             console.error('Error querying database for available barbers:', err);
@@ -88,7 +86,6 @@ router.get('/barber/:barberId/:date', (req, res) => {
             res.status(500).json({ message: 'Internal server error' });
             return;
         }
-        console.log('Horas disponibles:', allHoursResults);
         // Consulta SQL para obtener todas las reservas del peluquero para la fecha dada
         const reservationsQuery = `
         SELECT reserva FROM reservas
