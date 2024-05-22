@@ -5,7 +5,10 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
 // Ruta para hacer una reserva
-module.exports = function(connection) {
+module.exports = function(connection, key) {
+  // IV (para propósitos de demostración, debería generarse de forma aleatoria en producción)
+  const iv = Buffer.alloc(16, 0); // IV de 16 bytes, puedes generar uno aleatorio en producción
+
   router.post('/reservation', (req, res) => {
     const { clientId, barberId, date, hour, email } = req.body;
 
@@ -24,14 +27,8 @@ module.exports = function(connection) {
     // Convertir la cadena de reserva a JSON
     const reservationString = JSON.stringify(reservationData);
 
-    // Generar una clave aleatoria de 24 bytes (192 bits)
-    const key = crypto.randomBytes(24);
-
-    // Inicializar el vector de inicialización (IV)
-    const iv = Buffer.alloc(16, 0); // Se recomienda generar un IV único para cada cifrado
-
     // Encriptar la cadena de reserva
-    const algorithm = 'aes-192-cbc';
+    const algorithm = 'aes-256-cbc'; // Utilizando AES con clave de 256 bits
     const cipher = crypto.createCipheriv(algorithm, key, iv);
     let encryptedData = cipher.update(reservationString, 'utf8', 'hex');
     encryptedData += cipher.final('hex');
@@ -94,5 +91,27 @@ module.exports = function(connection) {
     });
   });
 
-  return router;
-};
+  // Ruta para desencriptar el código QR
+// Ruta para desencriptar el código QR
+router.post('/decrypt-qr', (req, res) => {
+  const { encryptedData } = req.body;
+
+  console.log('Datos encriptados:', encryptedData); // Paso 1: Imprimir datos encriptados
+
+  try {
+    // Desencriptar la cadena de reserva
+    const algorithm = 'aes-256-cbc'; // Utilizando AES con clave de 256 bits
+    const decipher = crypto.createDecipheriv(algorithm, key, iv);
+    let decryptedData = decipher.update(encryptedData, 'hex', 'utf8');
+    decryptedData += decipher.final('utf8');
+
+    console.log('Datos desencriptados:', decryptedData); // Paso 2: Imprimir datos desencriptados
+
+    res.status(200).json({ message: 'Desencriptado correctamente', data: decryptedData });
+  } catch (error) {
+    console.error('Error al desencriptar el código QR:', error);
+    res.status(500).json({ message: 'Error al desencriptar el código QR' });
+  }
+});
+}
+
