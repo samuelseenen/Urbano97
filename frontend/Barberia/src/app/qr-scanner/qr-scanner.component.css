@@ -1,0 +1,12 @@
+.scanner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh; /* Ajusta la altura según tus necesidades */
+  width: 100%;
+}
+
+zxing-scanner {
+  width: 300px; /* Ajusta el ancho según tus necesidades */
+  height: 300px; /* Ajusta la altura según tus necesidades */
+}

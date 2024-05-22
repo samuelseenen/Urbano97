@@ -26,37 +26,51 @@ export class BookingComponent {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin, interactionPlugin],
     dateClick: (arg) => this.handleDateClick(arg),
-    events: []
+    events: [],
+    validRange: { start: new Date() } // Deshabilitar días anteriores al día actual
   };
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
   handleDateClick(arg: any) {
-    this.selectedDate = arg.dateStr;
-    this.initAvailableBarbers(this.selectedDate);
-  }
+    const selectedDate = new Date(arg.dateStr);
+    const currentDate = new Date(); // Obtener la fecha actual
+    
+    // Verificar si la fecha seleccionada es anterior al día actual
+    if (selectedDate < currentDate) {
+      return; // No hacer nada si la fecha seleccionada es anterior al día actual
+    }
 
-  initAvailableBarbers(date: string): void {
-    const [year, month, day] = date.split('-');
+    this.selectedDate = arg.dateStr;
+    this.calendarOptions.events = []; // Vaciar los eventos del calendario
+    this.initAvailableBarbers(); // Llamar a la función para cargar peluqueros
+  }
+  
+  initAvailableBarbers(): void {
+    const [year, month, day] = this.selectedDate.split('-'); // Obtener año, mes y día del string de fecha seleccionada
     this.http.get<any[]>(`http://localhost:3000/booking/barbers/${year}/${month}/${day}`).subscribe(
       (barbersResults) => {
         this.availableBarbers = barbersResults;
-        this.showBarbers = true;
+        if (this.availableBarbers.length > 0) {
+          this.showBarbers = true; // Solo mostrar si hay peluqueros disponibles
+          this.selectBarber(this.availableBarbers[0]); // Seleccionar automáticamente el primer peluquero disponible
+        }
       },
       (error) => {
         console.error('Error obteniendo peluqueros:', error);
       }
     );
   }
-
+  
   selectBarber(barber: any): void {
     this.selectedBarber = barber;
     this.showBarbers = false; 
-    this.initAvailableHours(this.selectedBarber.id, this.selectedDate);
+    this.initAvailableHours(); // Llamar a la función para cargar horas disponibles
   }
 
-  initAvailableHours(barberId: number, date: string): void {
-    this.http.get<any | { message: string }>(`http://localhost:3000/booking/barber/${barberId}/${date}`).subscribe(
+  initAvailableHours(): void {
+    const barberId = this.selectedBarber.id;
+    this.http.get<any | { message: string }>(`http://localhost:3000/booking/barber/${barberId}/${this.selectedDate}`).subscribe(
       (response) => {
         if ('message' in response) {
           // Si la respuesta tiene la propiedad 'message', significa que no hay horas disponibles

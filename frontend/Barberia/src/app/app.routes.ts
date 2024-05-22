@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { BookingComponent } from './booking/booking.component';
 import { ServicesComponent } from './services/services.component';
+import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
 
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'booking', component: BookingComponent },
   { path: 'services', component: ServicesComponent },
+  { path: 'qr-scanner', component: QrScannerComponent },
 ];
 
 

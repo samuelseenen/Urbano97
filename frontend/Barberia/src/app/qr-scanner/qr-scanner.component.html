@@ -1,0 +1,8 @@
+<div class="scanner-container">
+  <zxing-scanner [formats]="formats" (scanSuccess)="onScanSuccess($event)"></zxing-scanner>
+</div>
+
+<div *ngIf="decryptedResult">
+  <p>Datos de la reserva:</p>
+  <pre>{{ decryptedResult }}</pre> <!-- Utiliza la etiqueta 'pre' para mostrar texto preformateado -->
+</div>
