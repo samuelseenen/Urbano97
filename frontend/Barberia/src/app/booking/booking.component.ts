@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-booking',
@@ -21,6 +22,7 @@ export class BookingComponent {
   showReservationButton: boolean = false; 
   showConfirmation: boolean = false; 
   noHoursAvailableMessage: string = ''; // Inicializa con una cadena vacía
+  userEmail: string = ''; // Variable para almacenar el email del usuario
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
@@ -30,7 +32,12 @@ export class BookingComponent {
     validRange: { start: new Date() } // Deshabilitar días anteriores al día actual
   };
 
-  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef, private authService: AuthService) {
+    // Obtener el email del usuario del servicio AuthService
+    this.authService.currentUserEmail.subscribe(email => {
+      this.userEmail = email;
+    });
+  }
 
   handleDateClick(arg: any) {
     const selectedDate = new Date(arg.dateStr);
@@ -97,7 +104,9 @@ export class BookingComponent {
     console.log('Servicio seleccionado:', service);
   }
 
-  makeReservation(): void {
+  makeReservation(event: MouseEvent): void {
+    event.preventDefault(); // Evitar que el formulario se envíe
+
     if (!this.selectedDate || !this.selectedHour || !this.selectedBarber) {
       console.error('Error: Se deben seleccionar una fecha, una hora y un peluquero para hacer la reserva');
       return;
@@ -106,10 +115,10 @@ export class BookingComponent {
     const barberId = this.selectedBarber.id;
     const formattedDate = this.selectedDate;
     const hour = this.selectedHour;
-    const clientId = 1;
+    const email = this.userEmail; // Utilizar el email del usuario
 
     const reservationData = {
-      clientId: clientId,
+      email: email,
       barberId: barberId,
       date: formattedDate,
       hour: hour
@@ -128,6 +137,7 @@ export class BookingComponent {
   }
 
   acceptConfirmation(): void {
-    location.reload();
+    this.showConfirmation = false; // Ocultar el mensaje de confirmación
   }
 }
+

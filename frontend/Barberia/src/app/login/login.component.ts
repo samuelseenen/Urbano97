@@ -1,6 +1,8 @@
+// login.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,16 +10,21 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  email: string = ''; // Propiedad para almacenar el correo electrónico
-  password: string = ''; // Propiedad para almacenar la contraseña
+  email: string = '';
+  password: string = '';
 
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient, private authService: AuthService) {}
 
   login() {
-    const body = { email: this.email, password: this.password }; // Utiliza los valores de las propiedades email y password
-    this.http.post('http://localhost:3000/login', body).subscribe((res) => {
+    const body = { email: this.email, password: this.password };
+    this.http.post('http://localhost:3000/login', body).subscribe((res: any) => {
       console.log(res);
-      this.router.navigateByUrl('/home');
+      if (res.message === 'Login successful') {
+        this.authService.login(this.email);
+        this.router.navigateByUrl('/home');
+      } else {
+        console.error('Error:', res.message);
+      }
     }, (error) => {
       console.error('Error:', error);
     });

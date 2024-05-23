@@ -1,7 +1,7 @@
 <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
   <div class="card shadow p-4">
     <h2 class="text-center mb-4">Iniciar sesión</h2>
-    <form>
+    <form (keydown.enter)="login()">
       <div class="form-group">
         <label for="email" class="text-muted">Correo electrónico</label>
         <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo electrónico" [(ngModel)]="email">

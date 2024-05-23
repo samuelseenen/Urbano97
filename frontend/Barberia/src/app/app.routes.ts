@@ -6,22 +6,19 @@ import { BookingComponent } from './booking/booking.component';
 import { ServicesComponent } from './services/services.component';
 import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
-
+import { AuthGuard } from './auth.guard';  // Importa el guard de autenticación
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'booking', component: BookingComponent },
-  { path: 'services', component: ServicesComponent },
-  { path: 'qr-scanner', component: QrScannerComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },  // Protege esta ruta con el guard
+  { path: 'booking', component: BookingComponent, canActivate: [AuthGuard] },  // Protege esta ruta con el guard
+  { path: 'services', component: ServicesComponent, canActivate: [AuthGuard] },  // Protege esta ruta con el guard
+  { path: 'qr-scanner', component: QrScannerComponent, canActivate: [AuthGuard] },  // Protege esta ruta con el guard
 ];
 
-
 @NgModule({
-  imports: [RouterModule.forRoot(routes),
-    FullCalendarModule
-  ],
+  imports: [RouterModule.forRoot(routes), FullCalendarModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

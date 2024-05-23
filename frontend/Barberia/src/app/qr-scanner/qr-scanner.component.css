@@ -2,11 +2,37 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50vh; /* Ajusta la altura según tus necesidades */
-  width: 100%;
+  height: 50vh;
+}
+
+.scanner-frame {
+  width: 70%; /* Ajusta el ancho del contenedor del escáner al 70% del contenedor */
+  height: 70%; /* Ajusta la altura del contenedor del escáner al 70% del contenedor */
+  max-width: 400px; /* Limita el ancho máximo del contenedor del escáner a 400px */
+  max-height: 400px; /* Limita la altura máxima del contenedor del escáner a 400px */
+  border: 2px solid #ccc; /* Borde del contenedor del escáner */
+  border-radius: 10px; /* Borde redondeado */
+  overflow: hidden; /* Oculta el contenido que se desborda del contenedor */
+}
+
+.scan-button {
+  display: block;
+  margin: 0 auto; /* Centrar horizontalmente */
+  padding: 10px 20px; /* Espacio alrededor del botón */
+  font-size: 16px; /* Tamaño del texto */
+  color: #fff; /* Color del texto */
+  background-color: #007bff; /* Color de fondo del botón */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Borde redondeado */
+  cursor: pointer; /* Cursor al pasar el mouse */
+  transition: background-color 0.3s; /* Transición suave del color de fondo */
+}
+
+.scan-button:hover {
+  background-color: #0056b3; /* Cambia el color de fondo al pasar el mouse */
 }
 
 zxing-scanner {
-  width: 300px; /* Ajusta el ancho según tus necesidades */
-  height: 300px; /* Ajusta la altura según tus necesidades */
+  width: 100%; /* Ajusta el ancho al 100% del contenedor */
+  height: 100%; /* Ajusta la altura al 100% del contenedor */
 }

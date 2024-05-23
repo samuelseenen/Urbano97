@@ -1,29 +1,23 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule, Routes } from '@angular/router'; // Importa RouterModule y Routes para definir las rutas
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarModule } from 'angular-calendar';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { BookingComponent } from './booking/booking.component';
 import { HomeComponent } from './home/home.component'; 
 import { ServicesComponent } from './services/services.component';
 import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import { HttpClientModule } from '@angular/common/http';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { NavbarComponent } from './navbar/navbar.component';  // Importa el nuevo componente de navbar
 
-
-
-// Define las rutas de la aplicación
-const routes: Routes = [
-  { path: '', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'booking', component: BookingComponent }, // Agrega esta ruta para el componente de reserva
-  { path: 'services', component: ServicesComponent }, // Agrega esta ruta para el componente de reserva
-  { path: 'qr-scanner', component: QrScannerComponent } // Agrega esta ruta para el componente de reserva
-];
+import { AuthService } from './auth.service';  // Importa el servicio de autenticación
+import { AuthGuard } from './auth.guard';  // Importa el guard de autenticación
+import { AppRoutingModule } from './app.routes';  // Importa el módulo de rutas
 
 @NgModule({
   declarations: [
@@ -32,14 +26,15 @@ const routes: Routes = [
     BookingComponent,
     HomeComponent,
     ServicesComponent,
-    QrScannerComponent // Asegúrate de incluir HomeComponent en las declaraciones si lo estás usando
+    QrScannerComponent,
+    NavbarComponent  // Declara el nuevo componente de navbar
   ],
   imports: [
     BrowserModule,
     FormsModule,
     FullCalendarModule,
     HttpClientModule,
-    RouterModule.forRoot(routes), // Importa las rutas definidas anteriormente
+    AppRoutingModule,  // Importa el módulo de rutas
     CalendarModule.forRoot({
       provide: 'locale',
       useValue: 'es'
@@ -47,7 +42,9 @@ const routes: Routes = [
     ZXingScannerModule
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    AuthService,  // Provee el servicio de autenticación
+    AuthGuard  // Provee el guard de autenticación
   ],
   bootstrap: [AppComponent]
 })
