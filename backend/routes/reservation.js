@@ -88,11 +88,11 @@ module.exports = function(connection, key) {
   
           // Ejecutar la consulta SQL para insertar la reserva
           const insertQuery = `
-            INSERT INTO reservas (EstadoReserva, QRReserva, fecha, id_peluquero, reserva)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO reservas (EstadoReserva, QRReserva, fecha, id_peluquero, reserva, id_cliente, hora)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
           `;
   
-          connection.query(insertQuery, ['pendiente', qrCodeDataUrl, date, barberId, reservationString], (err, result) => {
+          connection.query(insertQuery, ['pendiente', qrCodeDataUrl, date, barberId, reservationString, clientId, hour], (err, result) => {
             if (err) {
               console.error('Error al insertar la reserva:', err);
               res.status(500).json({ message: 'Error al realizar la reserva' });

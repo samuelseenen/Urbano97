@@ -2,8 +2,11 @@ const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
 const loginRoutes = require('./routes/login');
-const bookingRoutes = require('./routes/booking'); // Importa las rutas de booking
-const reservationRoutes = require('./routes/reservation'); // Importa las nuevas rutas de reserva
+const bookingRoutes = require('./routes/booking');
+const reservationRoutes = require('./routes/reservation');
+const registerRoutes = require('./routes/register'); // Importa las rutas de register
+const watchReservationsRoutes = require('./routes/WatchReservations');
+const cancelReservationRoutes = require('./routes/CancelReservation');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
@@ -18,6 +21,7 @@ app.use(express.json());
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
+  password: '', // Asegúrate de agregar tu contraseña aquí
   database: 'urbano97'
 });
 
@@ -61,8 +65,16 @@ app.use('/booking', bookingRoutes);
 
 // Definir rutas de reserva y desencriptación
 const reservationRouter = reservationRoutes(connection, key); // Pasar la clave como argumento
-app.use('/reserva', reservationRouter); // Pasar la conexión como argumento
-app.use('/decrypt-qr', reservationRouter); // Pasar la conexión como argumento
+app.use('/reserva', reservationRouter);
+app.use('/decrypt-qr', reservationRouter);
+
+// Definir rutas de registro
+const registerRouter = registerRoutes(connection);
+app.use('/register', registerRouter);
+
+app.use('/watch-reservations', watchReservationsRoutes);
+
+app.use('/cancel-reservation', cancelReservationRoutes);
 
 // Iniciar el servidor
 app.listen(PORT, () => {
