@@ -1,25 +1,38 @@
-<!-- src/app/navbar/navbar.component.html -->
 <nav *ngIf="isLoggedIn | async" class="navbar navbar-expand-lg navbar-light bg-light">
-    <!-- contenido de la navbar -->
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-            <a class="nav-link" href="#">Inicio</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/services">Servicios</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/booking">Reserva</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/qr-scanner">Escanear codigo qr</a>
-        </li>
-      </ul>
+  <!-- contenido de la navbar -->
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse ml-auto" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Inicio</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/services">Servicios</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/booking">Reserva</a>
+      </li>
+      <li *ngIf="userType | async as type; else noAdmin" class="nav-item" [ngClass]="{'d-none': type !== 'admin'}">
+        <a class="nav-link" routerLink="/qr-scanner">Escanear código qr</a>
+      </li>
+    </ul>
+  </div>
+  <!-- Dropdown para "Mi cuenta" -->
+  <div class="nav-item dropdown mr-2"> <!-- Agregar clase de margen -->
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Mi cuenta
+    </a>
+    <div class="dropdown-menu dropdown-menu-right animated fadeIn" aria-labelledby="navbarDropdown">
+      <a class="dropdown-item" routerLink="/reservations">Mis reservas</a> <!-- Cambia el enlace para dirigir al componente de reservations -->
+      <a class="dropdown-item" href="#">Configuración de cuenta</a>
+      <div class="dropdown-divider"></div> <!-- Separador -->
+      <button class="dropdown-item" (click)="logout()">Cerrar sesión</button>
     </div>
-  </nav>
-  
+    
+  </div>
+</nav>
+
+<ng-template #noAdmin></ng-template>

@@ -1,0 +1,13 @@
+.container-fluid {
+    height: 100vh;
+  }
+  
+  .card {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .btn-block {
+    width: 100%;
+  }
+  

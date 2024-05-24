@@ -1,3 +1,5 @@
+// codigo bueno
+
 import { Component, OnInit } from '@angular/core';
 import { BarcodeFormat } from '@zxing/library';
 import { BehaviorSubject } from 'rxjs';

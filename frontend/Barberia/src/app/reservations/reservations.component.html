@@ -1,0 +1,28 @@
+<div *ngIf="reservations.length > 0">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Fecha</th>
+        <th scope="col">Hora</th>
+        <th scope="col">Nombre del Peluquero</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Acción</th> <!-- Agregar nueva columna para el botón de cancelar -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let reservation of reservations">
+        <td>{{ reservation.fecha }}</td>
+        <td>{{ reservation.hora }}</td>
+        <td>{{ reservation.peluquero }}</td>
+        <td>{{ reservation.estado }}</td>
+        <td>
+          <button class="btn btn-danger" (click)="cancelReservation(reservation.fecha, reservation.hora)">Cancelar</button>
+        </td> <!-- Agregar botón de cancelar con llamada a la función cancelReservation -->
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="reservations.length === 0">
+  <p>No hay reservas disponibles.</p>
+</div>

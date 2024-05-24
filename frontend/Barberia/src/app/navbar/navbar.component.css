@@ -1,0 +1,5 @@
+/* src/app/navbar/navbar.component.css */
+.dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  

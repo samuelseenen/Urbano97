@@ -4,6 +4,7 @@ import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { AuthService } from '../auth.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-booking',
@@ -11,7 +12,6 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./booking.component.css']
 })
 export class BookingComponent {
-
   selectedDate: string = ''; 
   selectedHour: string = ''; 
   selectedBarber: any = null; 
@@ -34,8 +34,8 @@ export class BookingComponent {
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef, private authService: AuthService) {
     // Obtener el email del usuario del servicio AuthService
-    this.authService.currentUserEmail.subscribe(email => {
-      this.userEmail = email;
+    this.authService.currentUserEmail$.pipe(take(1)).subscribe(email => {
+      this.userEmail = email ?? ''; // Asegúrate de manejar el caso en el que email sea null
     });
   }
 
@@ -140,4 +140,3 @@ export class BookingComponent {
     this.showConfirmation = false; // Ocultar el mensaje de confirmación
   }
 }
-

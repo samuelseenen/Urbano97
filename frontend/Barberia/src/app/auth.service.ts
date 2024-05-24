@@ -1,29 +1,35 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false);
-  private userEmail = new BehaviorSubject<string>('');
+  private currentUserEmail = new BehaviorSubject<string | null>(null);
+  private currentUserType = new BehaviorSubject<string | null>(null);
 
-  get isLoggedIn() {
+  get isLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
   }
 
-  get currentUserEmail() {
-    return this.userEmail.asObservable();
+  get currentUserEmail$(): Observable<string | null> {
+    return this.currentUserEmail.asObservable();
   }
 
-  login(email: string) {
+  get currentUserType$(): Observable<string | null> {
+    return this.currentUserType.asObservable();
+  }
+
+  login(email: string, tipoUsuario: string): void {
     this.loggedIn.next(true);
-    this.userEmail.next(email);
+    this.currentUserEmail.next(email);
+    this.currentUserType.next(tipoUsuario);
   }
 
-  logout() {
+  logout(): void {
     this.loggedIn.next(false);
-    this.userEmail.next('');
+    this.currentUserEmail.next(null);
+    this.currentUserType.next(null);
   }
 }
