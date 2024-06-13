@@ -1,21 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
+require('dotenv').config({ path: 'dotenv.env' });
 
 // Configurar la conexión a la base de datos MySQL
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'urbano97' // Nombre de la base de datos
-});
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+  });
 
 // Ruta para cancelar una reserva
 router.delete('/cancel-reservation', async (req, res) => {
-    const { email, fecha, hora } = req.query;
+    const { email, fecha, hora, clientId } = req.query;
 
     try {
-        // Consultar el id del cliente por su email
-        const queryClient = 'SELECT id FROM clientes WHERE Email = ?';
+        // Consultar el tipo de usuario por su email
+        const queryClient = 'SELECT id, tipoUsuario FROM clientes WHERE Email = ?';
         const clientResults = await queryAsync(connection, queryClient, [email]);
 
         if (clientResults.length === 0) {
@@ -23,11 +25,18 @@ router.delete('/cancel-reservation', async (req, res) => {
             return res.status(404).json({ message: 'Client not found' });
         }
 
-        const clientId = clientResults[0].id;
+        const userId = clientResults[0].id;
+        const userType = clientResults[0].tipoUsuario;
 
-        // Eliminar la reserva del cliente por fecha, hora e ID de cliente
-        const queryDeleteReservation = 'DELETE FROM reservas WHERE fecha = ? AND hora = ? AND id_cliente = ?';
-        await queryAsync(connection, queryDeleteReservation, [fecha, hora, clientId]);
+        if (userType === 'admin' && clientId) {
+            // Si es un administrador y se proporciona un clientId, cancelar la reserva del cliente específico
+            const queryDeleteReservation = 'DELETE FROM reservas WHERE fecha = ? AND hora = ? AND id_cliente = ?';
+            await queryAsync(connection, queryDeleteReservation, [fecha, hora, clientId]);
+        } else {
+            // Si no es administrador o no se proporciona un clientId, cancelar la reserva del usuario logueado
+            const queryDeleteReservation = 'DELETE FROM reservas WHERE fecha = ? AND hora = ? AND id_cliente = ?';
+            await queryAsync(connection, queryDeleteReservation, [fecha, hora, userId]);
+        }
 
         res.status(200).json({ message: 'Reservation canceled successfully' });
     } catch (error) {
@@ -36,7 +45,6 @@ router.delete('/cancel-reservation', async (req, res) => {
     }
 });
 
-// Función para ejecutar consultas SQL como una Promesa
 function queryAsync(connection, sql, params) {
     return new Promise((resolve, reject) => {
         connection.query(sql, params, (error, results) => {

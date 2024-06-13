@@ -1,20 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
+require('dotenv').config({ path: 'dotenv.env' });
 
 // Configurar la conexión a la base de datos MySQL
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'urbano97'
-});
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+  });
 
 // Ruta para obtener los peluqueros disponibles para una fecha
 router.get('/barbers/:year/:month/:day', (req, res) => {
     const { year, month, day } = req.params;
     const date = `${year}-${month}-${day}`;
 
-    // Consulta SQL para obtener los peluqueros disponibles para una fecha
+    // Consulta para obtener los peluqueros disponibles para una fecha
     const barbersQuery = `
         SELECT id, nombre FROM Peluqueros
         WHERE id NOT IN (
@@ -35,22 +37,20 @@ router.get('/barbers/:year/:month/:day', (req, res) => {
             return new Promise((resolve, reject) => {
                 const barberId = barber.id;
 
-                // Consulta SQL para obtener las horas disponibles del peluquero
+                // Consulta para obtener las horas disponibles del peluquero
                 const availableHoursQuery = `
-                    SELECT TIME_FORMAT(horas, '%H:%i') AS horas FROM horas_disponibles
-                    WHERE id_peluquero = ?
+                SELECT CAST(horas AS CHAR) AS hora FROM horas_disponibles WHERE id_peluquero = ?
                 `;
-
                 connection.query(availableHoursQuery, [barberId], (err, hoursResults) => {
                     if (err) {
                         reject(err);
                         return;
                     }
 
-                    // Filtrar las horas disponibles para el peluquero actual
+                    // Filtrar las horas disponibles para el peluquero seleccionado
                     const availableHours = hoursResults.map((row) => row.hora);
 
-                    // Agregar las horas disponibles al objeto del peluquero
+                    // Agregar las horas disponibles al peluquero
                     barber.availableHours = availableHours;
 
                     resolve(barber);
@@ -58,7 +58,6 @@ router.get('/barbers/:year/:month/:day', (req, res) => {
             });
         });
 
-        // Esperar a que todas las consultas de horas estén completas
         Promise.all(promises)
             .then((barbersWithHours) => {
                 res.status(200).json(barbersWithHours);
@@ -74,7 +73,7 @@ router.get('/barbers/:year/:month/:day', (req, res) => {
 router.get('/barber/:barberId/:date', (req, res) => {
     const { barberId, date } = req.params;
 
-    // Consulta SQL para obtener las horas disponibles del peluquero
+    // Consulta para obtener las horas disponibles del peluquero
     const availableHoursQuery = `
         SELECT horas FROM horas_disponibles
         WHERE id_peluquero = ?
@@ -86,7 +85,7 @@ router.get('/barber/:barberId/:date', (req, res) => {
             res.status(500).json({ message: 'Internal server error' });
             return;
         }
-        // Consulta SQL para obtener todas las reservas del peluquero para la fecha dada
+        // Consulta para obtener todas las reservas del peluquero para la fecha seleccionada
         const reservationsQuery = `
         SELECT reserva FROM reservas
         WHERE id_peluquero = ? AND SUBSTRING_INDEX(SUBSTRING_INDEX(reserva, '"fecha":"', -1), '"', 1) = ?
@@ -99,7 +98,7 @@ router.get('/barber/:barberId/:date', (req, res) => {
             return;
         }
     
-        // Obtener las horas ocupadas de las reservas para el peluquero en la fecha dada
+        // Obtener las horas ocupadas de las reservas para el peluquero en la fecha seleccionada
         let occupiedHours = [];
         if (reservationResults.length > 0) {
             occupiedHours = reservationResults.map((row) => {
@@ -123,8 +122,5 @@ router.get('/barber/:barberId/:date', (req, res) => {
     
     });
 });
-
-
-
 
 module.exports = router;

@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
-const bcrypt = require('bcrypt'); // Importa la biblioteca bcrypt
+const bcrypt = require('bcrypt');
+require('dotenv').config({ path: 'dotenv.env' });
 
 // Configurar la conexión a la base de datos MySQL
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'urbano97'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
 
 // Ruta para manejar las solicitudes de inicio de sesión
@@ -24,7 +26,6 @@ router.post('/', (req, res) => {
     }
 
     if (results.length === 0) {
-      // Credenciales inválidas (usuario no encontrado)
       res.status(401).json({ message: 'Invalid credentials' });
       return;
     }
@@ -41,10 +42,8 @@ router.post('/', (req, res) => {
       }
 
       if (bcryptResult) {
-        // Contraseña válida
         res.status(200).json({ message: 'Login successful', userId: user.id, tipoUsuario: user.tipoUsuario });
       } else {
-        // Contraseña inválida
         res.status(401).json({ message: 'Invalid credentials' });
       }
     });

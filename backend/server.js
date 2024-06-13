@@ -1,15 +1,20 @@
+//Se agregan los distintos modulos de node.
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
-const loginRoutes = require('./routes/login');
-const bookingRoutes = require('./routes/booking');
-const reservationRoutes = require('./routes/reservation');
-const registerRoutes = require('./routes/register'); // Importa las rutas de register
-const watchReservationsRoutes = require('./routes/WatchReservations');
-const cancelReservationRoutes = require('./routes/CancelReservation');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+//Se agregan las rutas de los demas archivos para poder acceder a las funciones.
+const loginRoutes = require('./routes/login');
+const bookingRoutes = require('./routes/booking');
+const reservationRoutes = require('./routes/reservation');
+const registerRoutes = require('./routes/register');
+const watchReservationsRoutes = require('./routes/WatchReservations');
+const cancelReservationRoutes = require('./routes/CancelReservation');
+const changeCredentialsRoutes = require('./routes/ChangeCredentials');
+//Agrego el archivo .env para definir las variables de la bbdd.
+require('dotenv').config({ path: 'dotenv.env' });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,10 +24,10 @@ app.use(express.json());
 
 // Configurar la conexión a la base de datos MySQL
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '', // Asegúrate de agregar tu contraseña aquí
-  database: 'urbano97'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
 
 connection.connect((err) => {
@@ -33,10 +38,10 @@ connection.connect((err) => {
   console.log('Connected to database');
 });
 
-// Utilizar CORS middleware
+// Utilizar CORS middleware para la comunicacion entre el backend y el frontend.
 app.use(cors());
 
-// Ruta al archivo donde se almacenará la clave
+// Ruta al archivo donde se almacenará la clave para la desencriptacion del codigo qr.
 const keyFilePath = path.join(__dirname, 'encryptionKey.txt');
 
 // Función para generar o leer la clave del archivo
@@ -46,7 +51,7 @@ function loadEncryptionKey() {
     const key = fs.readFileSync(keyFilePath, 'utf8');
     return Buffer.from(key, 'hex');
   } catch (error) {
-    // Si hay un error (por ejemplo, el archivo no existe), generar una nueva clave
+    // Si hay un error, generar una nueva clave
     const newKey = crypto.randomBytes(32);
     // Almacenar la nueva clave en el archivo
     fs.writeFileSync(keyFilePath, newKey.toString('hex'));
@@ -57,24 +62,16 @@ function loadEncryptionKey() {
 // Cargar la clave al iniciar el servidor
 const key = loadEncryptionKey();
 
-// Definir rutas de autenticación
+// Se definen las rutas de las funciones para que despues puedan ser llamadas en el frontend.
 app.use('/login', loginRoutes);
-
-// Definir rutas de booking
 app.use('/booking', bookingRoutes);
-
-// Definir rutas de reserva y desencriptación
 const reservationRouter = reservationRoutes(connection, key); // Pasar la clave como argumento
 app.use('/reserva', reservationRouter);
 app.use('/decrypt-qr', reservationRouter);
-
-// Definir rutas de registro
-const registerRouter = registerRoutes(connection);
-app.use('/register', registerRouter);
-
+app.use('/register', registerRoutes);
 app.use('/watch-reservations', watchReservationsRoutes);
-
 app.use('/cancel-reservation', cancelReservationRoutes);
+app.use('/change-credentials', changeCredentialsRoutes);
 
 // Iniciar el servidor
 app.listen(PORT, () => {
