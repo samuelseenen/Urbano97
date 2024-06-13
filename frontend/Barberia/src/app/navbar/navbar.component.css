@@ -1,5 +1,122 @@
-/* src/app/navbar/navbar.component.css */
+:root {
+  --almond: #E3D5C5;
+  --khaki: #9E9B88;
+  --ebony: #59614B;
+  --black-olive: #2D3126;
+  --black: #000000;
+}
+
+body, html {
+  margin: 0;
+  font-family: 'MiFuente', sans-serif;
+  background-color: var(--black-olive);
+  color: var(--almond);
+}
+
+.navbar {
+  background-color: var(--black-olive) !important;
+  padding: 1rem;
+  font-family: 'MiFuente', sans-serif;
+}
+
+.navbar-brand {
+  color: var(--almond) !important;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo {
+  height: 90px;
+  margin-right: 10px;
+}
+
+.navbar-toggler {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--almond);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-toggler span {
+  margin-left: 5px;
+}
+
+.navbar-toggler-right {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.navbar-nav .nav-link {
+  color: var(--almond) !important;
+  margin-right: 1rem;
+  font-family: 'MiFuente', sans-serif;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--khaki) !important;
+}
+
+.nav-item.dropdown .nav-link.dropdown-toggle {
+  color: var(--almond) !important;
+}
+
+.nav-item.dropdown .nav-link.dropdown-toggle:hover {
+  color: var(--khaki) !important;
+}
+
+.dropdown-menu {
+  background-color: var(--ebony) !important;
+}
+
+.dropdown-item {
+  color: var(--almond) !important;
+}
+
+.dropdown-item:hover {
+  background-color: var(--khaki) !important;
+  color: var(--black-olive) !important;
+}
+
+.dropdown-divider {
+  border-top: 1px solid var(--almond) !important;
+}
+
 .dropdown:hover .dropdown-menu {
-    display: block;
+  display: block;
+}
+
+@media (max-width: 992px) {
+  .navbar-nav {
+    text-align: center;
   }
-  
+
+  .navbar-nav .nav-link {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .navbar-collapse {
+    justify-content: center;
+  }
+
+  .nav-item.dropdown .dropdown-menu {
+    position: static;
+    float: none;
+    width: 100%;
+    margin-top: 0;
+    background-color: var(--ebony) !important;
+    border: none;
+    box-shadow: none;
+  }
+
+  .navbar-toggler-right {
+    position: absolute;
+    right: 0;
+    margin-right: 15px;
+  }
+}

@@ -1,0 +1,64 @@
+/* Asegurar que el html y body llenen toda la altura del viewport */
+:root {
+  --almond: #E3D5C5;
+  --khaki: #9E9B88;
+  --ebony: #59614B;
+  --black-olive: #2D3126;
+  --black: #000000;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+}
+  
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .content-wrapper {
+    flex: 1;
+  }
+  footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+  }
+  
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  .footer-section {
+    max-width: 300px;
+  }
+  
+  .footer-section h4 {
+    margin-bottom: 15px;
+  }
+  
+  .footer-section p {
+    margin: 5px 0;
+  }
+  
+  .social-links a {
+    color: white;
+    margin-right: 10px;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    padding: 10px;
+    background-color: #222;
+  }
+  

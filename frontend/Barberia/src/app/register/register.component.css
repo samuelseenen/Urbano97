@@ -1,13 +1,76 @@
-.container-fluid {
-    height: 100vh;
+:root {
+  --almond: #E3D5C5;
+  --khaki: #9E9B88;
+  --ebony: #59614B;
+  --black-olive: #2D3126;
+  --black: #000000;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'MiFuente', sans-serif;
+  background-color: var(--black-olive);
+  color: var(--almond);
+}
+
+.container {
+  background-color: var(--ebony);
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  margin: auto;
+  margin-bottom: 50px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+  color: var(--almond);
+  font-family: 'MiFuente', sans-serif;
+}
+
+.form-group label {
+  color: var(--almond);
+}
+
+.form-control {
+  background-color: var(--black-olive);
+  color: var(--almond);
+  border: 1px solid var(--khaki);
+  border-radius: 5px;
+}
+
+.form-control::placeholder {
+  color: var(--khaki);
+}
+
+.btn-primary {
+  background-color: var(--almond);
+  border-color: var(--almond);
+  color: var(--black-olive);
+  border-radius: 5px;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: var(--khaki);
+  border-color: var(--khaki);
+}
+
+.invalid-feedback {
+  color: var(--khaki);
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 15px;
   }
-  
-  .card {
-    width: 100%;
-    max-width: 400px;
+
+  .form-control {
+    font-size: 0.875rem;
   }
-  
-  .btn-block {
-    width: 100%;
+
+  .btn-primary {
+    padding: 8px 16px;
   }
-  
+}

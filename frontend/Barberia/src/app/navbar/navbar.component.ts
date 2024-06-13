@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'; // Importa Router
+import { Component, OnInit, ViewEncapsulation} from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class NavbarComponent implements OnInit {
   isLoggedIn: Observable<boolean>;

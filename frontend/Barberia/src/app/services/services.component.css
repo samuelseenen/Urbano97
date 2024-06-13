@@ -1,0 +1,96 @@
+:root {
+  --almond: #E3D5C5;
+  --khaki: #9E9B88;
+  --ebony: #59614B;
+  --black-olive: #2D3126;
+  --black: #000000;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'MiFuente', sans-serif;
+}
+
+.container-fluid.services-section {
+  padding: 50px 15px;
+  background-color: var(--black-olive);
+  color: var(--almond);
+}
+
+.section-title {
+  color: var(--almond);
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
+
+.service-category {
+  background-color: var(--ebony);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.category-title {
+  font-size: 1.75rem;
+  margin-bottom: 15px;
+  color: var(--almond);
+}
+
+.service-list {
+  list-style: none;
+  padding: 0;
+}
+
+.service-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--almond);
+}
+
+.service-list li span {
+  font-size: 1.25rem;
+}
+
+.schedule, .appointments {
+  background-color: var(--ebony);
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.schedule h4, .appointments h4 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: var(--almond);
+}
+
+.schedule p, .appointments p {
+  font-size: 1.25rem;
+  color: var(--almond);
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .category-title {
+    font-size: 1.5rem;
+  }
+
+  .service-list li span {
+    font-size: 1rem;
+  }
+
+  .schedule h4, .appointments h4 {
+    font-size: 1.25rem;
+  }
+
+  .schedule p, .appointments p {
+    font-size: 1rem;
+  }
+}

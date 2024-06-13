@@ -1,9 +1,9 @@
-<div class="container">
+<div class="container booking-container">
   <full-calendar [options]="calendarOptions" class="small-calendar"></full-calendar>
 
   <!-- Mostrar los peluqueros disponibles -->
-  <div *ngIf="showBarbers">
-    <h3>Selecciona un peluquero:</h3>
+  <div *ngIf="showBarbers" class="barbers-section">
+    <h3 class="section-heading">Selecciona un peluquero:</h3>
     <div class="barbers">
       <div *ngFor="let barber of availableBarbers" class="barber" (click)="selectBarber(barber)">
         <img src="../../images/avatar.jpg" alt="Avatar" class="barber-image">
@@ -13,36 +13,41 @@
   </div>
 
   <!-- Mostrar las horas disponibles o el mensaje de "No hay horas disponibles" -->
-  <div *ngIf="selectedBarber">
-    <h3>Horas disponibles para el {{ selectedDate }} con {{ selectedBarber.nombre }}:</h3>
+  <div *ngIf="selectedBarber && showHours" class="hours-section">
+    <h3 class="section-heading">Horas disponibles para el {{ selectedDate }} con {{ selectedBarber.nombre }}:</h3>
     <div class="available-hours">
-      <!-- Mostrar las horas si están disponibles -->
       <button *ngFor="let hour of availableHours" (click)="selectHour(hour)" class="btn btn-primary mb-2 mx-2">{{ hour }}</button>
-      <!-- Mostrar el mensaje si no hay horas disponibles -->
       <p *ngIf="!availableHours.length">{{ noHoursAvailableMessage }}</p>
     </div>
   </div>
 
   <!-- Elegir servicio -->
-  <div *ngIf="selectedHour">
-    <h3>Elegir servicio para la hora {{ selectedHour }}:</h3>
+  <div *ngIf="selectedHour" class="services-section">
+    <h3 class="section-heading">Elegir servicio para la hora {{ selectedHour }}:</h3>
     <div class="services">
-      <button (click)="selectService('Corte de pelo - 15€')" class="btn btn-primary mb-2 mx-2">Corte de pelo - 15€</button>
-      <button (click)="selectService('Corte de pelo + cejas - 19€')" class="btn btn-primary mb-2 mx-2">Corte de pelo + cejas - 19€</button>
-      <button (click)="selectService('Corte de pelo + barba - 23€')" class="btn btn-primary mb-2 mx-2">Corte de pelo + barba - 23€</button>
+      <button (click)="selectService('Corte Clasico - $20.00')" class="btn btn-primary mb-2 mx-2">Corte Clasico - 20.00 € </button>
+      <button (click)="selectService('Corte de Lujo - $40.00')" class="btn btn-primary mb-2 mx-2">Corte de Lujo - 40.00 € </button>
+      <button (click)="selectService('Corte para Ninos - $15.00')" class="btn btn-primary mb-2 mx-2">Corte para Ninos - 15.00 € </button>
+      <button (click)="selectService('Recorte de Barba - $15.00')" class="btn btn-primary mb-2 mx-2">Recorte de Barba - 15.00 € </button>
+      <button (click)="selectService('Afeitado con Toalla Caliente - $30.00')" class="btn btn-primary mb-2 mx-2">Afeitado con Toalla Caliente - 30.00 € </button>
+      <button (click)="selectService('Recorte de Bigote - $15.00')" class="btn btn-primary mb-2 mx-2">Recorte de Bigote - 15.00 € </button>
+      <button (click)="selectService('Color de Cabello - $15.00')" class="btn btn-primary mb-2 mx-2">Color de Cabello - 15.00 € </button>
+      <button (click)="selectService('Facial - $15.00')" class="btn btn-primary mb-2 mx-2">Facial - 15.00 € </button>
+      <button (click)="selectService('Lavado de Cabello - $10.00')" class="btn btn-primary mb-2 mx-2">Lavado de Cabello - 10.00 € </button>
     </div>
   </div>
+  
 
-  <!-- Botón para hacer la reserva -->
-  <div *ngIf="showReservationButton">
+  <!-- Boton para hacer la reserva -->
+  <div *ngIf="showReservationButton" class="reservation-button-section">
     <button type="button" class="btn btn-success" (click)="makeReservation($event)">Hacer Reserva</button>
   </div>
 
-  <!-- Mensaje de confirmación -->
+  <!-- Mensaje de confirmacion -->
   <div *ngIf="showConfirmation" class="dark-overlay">
     <div class="confirmation-message">
       <p>¡Reserva realizada con éxito!</p>
-      <button (click)="acceptConfirmation()">Aceptar</button>
+      <button (click)="acceptConfirmation()" class="btn btn-primary">Aceptar</button>
     </div>
   </div>
 </div>

@@ -32,4 +32,8 @@ export class AuthService {
     this.currentUserEmail.next(null);
     this.currentUserType.next(null);
   }
+
+  updateUserEmail(newEmail: string): void {
+    this.currentUserEmail.next(newEmail);
+  }
 }

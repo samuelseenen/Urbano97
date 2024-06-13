@@ -1,0 +1,86 @@
+:root {
+    --almond: #E3D5C5;
+    --khaki: #9E9B88;
+    --ebony: #59614B;
+    --black-olive: #2D3126;
+    --black: #000000;
+  }
+  
+  body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'MiFuente', sans-serif;
+    background-color: var(--black-olive);
+    color: var(--almond);
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  .reservations-container {
+    background-color: var(--ebony);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+  }
+  
+  .table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: var(--almond);
+    background-color: var(--black-olive);
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid var(--khaki);
+  }
+  
+  .table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid var(--khaki);
+  }
+  
+  .table tbody + tbody {
+    border-top: 2px solid var(--khaki);
+  }
+  
+  .table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--ebony);
+  }
+  
+  .table-striped tbody tr:nth-of-type(even) {
+    background-color: var(--black-olive);
+  }
+  
+  .btn-danger {
+    background-color: var(--khaki);
+    border-color: var(--khaki);
+    color: var(--black-olive);
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .btn-danger:hover {
+    background-color: var(--almond);
+    border-color: var(--almond);
+    color: var(--black-olive);
+  }
+  
+  @media (max-width: 768px) {
+    .reservations-container {
+      padding: 15px;
+    }
+  
+    .table th,
+    .table td {
+      padding: 0.5rem;
+    }
+  }
+  

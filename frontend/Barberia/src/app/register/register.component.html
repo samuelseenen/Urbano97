@@ -1,37 +1,37 @@
 <div class="container mt-5">
-    <h2 class="mb-4">Registro</h2>
-    <form (ngSubmit)="register()" class="needs-validation" novalidate>
-      <div class="form-group">
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" [(ngModel)]="nombre" name="nombre" class="form-control" required>
-        <div class="invalid-feedback">Por favor, ingrese su nombre.</div>
-      </div>
-      <div class="form-group">
-        <label for="apellido">Apellido</label>
-        <input type="text" id="apellido" [(ngModel)]="apellido" name="apellido" class="form-control" required>
-        <div class="invalid-feedback">Por favor, ingrese su apellido.</div>
-      </div>
-      <div class="form-group">
-        <label for="direccion">Dirección</label>
-        <input type="text" id="direccion" [(ngModel)]="direccion" name="direccion" class="form-control" required>
-        <div class="invalid-feedback">Por favor, ingrese su dirección.</div>
-      </div>
-      <div class="form-group">
-        <label for="telefono">Teléfono</label>
-        <input type="text" id="telefono" [(ngModel)]="telefono" name="telefono" class="form-control" required>
-        <div class="invalid-feedback">Por favor, ingrese su teléfono.</div>
-      </div>
-      <div class="form-group">
-        <label for="email">Correo Electrónico</label>
-        <input type="email" id="email" [(ngModel)]="email" name="email" class="form-control" required>
-        <div class="invalid-feedback">Por favor, ingrese un correo electrónico válido.</div>
-      </div>
-      <div class="form-group">
-        <label for="contrasenya">Contraseña</label>
-        <input type="password" id="contrasenya" [(ngModel)]="contrasenya" name="contrasenya" class="form-control" required>
-        <div class="invalid-feedback">Por favor, ingrese una contraseña.</div>
-      </div>
-      <button type="submit" class="btn btn-primary mt-3">Registrar</button>
-    </form>
-  </div>
-  
+  <h2 class="mb-4 text-center">Registro</h2>
+  <form (ngSubmit)="register()" class="needs-validation" novalidate>
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" [(ngModel)]="nombre" name="nombre" class="form-control" required>
+      <div class="invalid-feedback">Por favor, ingrese su nombre.</div>
+    </div>
+    <div class="form-group">
+      <label for="apellido">Apellido</label>
+      <input type="text" id="apellido" [(ngModel)]="apellido" name="apellido" class="form-control" required>
+      <div class="invalid-feedback">Por favor, ingrese su apellido.</div>
+    </div>
+    <div class="form-group">
+      <label for="direccion">Direccion</label>
+      <input type="text" id="direccion" [(ngModel)]="direccion" name="direccion" class="form-control" required>
+      <div class="invalid-feedback">Por favor, ingrese su direccion.</div>
+    </div>
+    <div class="form-group">
+      <label for="telefono">Telefono</label>
+      <input type="tel" id="telefono" [(ngModel)]="telefono" name="telefono" class="form-control" required>
+      <div class="invalid-feedback">Por favor, ingrese su telefono.</div>
+    </div>
+    <div class="form-group">
+      <label for="email">Correo Electronico</label>
+      <input type="email" id="email" [(ngModel)]="email" name="email" class="form-control" required>
+      <div class="invalid-feedback">Por favor, ingrese un correo electronico valido.</div>
+    </div>
+    <div class="form-group">
+      <label for="contrasenya">Contraseña</label>
+      <input type="password" id="contrasenya" [(ngModel)]="contrasenya" name="contrasenya" class="form-control" required>
+      <div class="invalid-feedback">Por favor, ingrese una contraseña.</div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block mt-3">Registrar</button>
+    <div *ngIf="errorMessage" class="text-danger mt-2">{{ errorMessage }}</div>
+  </form>
+</div>

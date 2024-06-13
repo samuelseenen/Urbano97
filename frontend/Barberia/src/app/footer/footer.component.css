@@ -1,0 +1,158 @@
+:root {
+  --almond: #E3D5C5;
+  --khaki: #9E9B88;
+  --ebony: #59614B;
+  --black-olive: #2D3126;
+  --black: #000000;
+}
+
+.footer-container {
+  background-color: var(--black-olive);
+  color: var(--almond);
+  padding: 40px 20px;
+  font-family: 'MiFuente', sans-serif;
+  position: relative;
+}
+
+.footer-container::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--khaki);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer-section {
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+.footer-section h4 {
+  margin-bottom: 15px;
+  font-family: 'MiFuente', sans-serif;
+  color: var(--almond);
+}
+
+.footer-section p,
+.footer-section a {
+  margin: 5px 0;
+  font-family: 'MiFuente', sans-serif;
+  color: var(--almond);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.footer-section a:hover {
+  color: var(--khaki);
+}
+
+.footer-section .icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.social-links a {
+  display: inline-block;
+  margin-right: 10px;
+  transition: transform 0.3s;
+}
+
+.social-links a:hover .icon {
+  transform: scale(1.1);
+}
+
+.subscribe-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.subscribe-form input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--khaki);
+  border-radius: 5px;
+  background-color: var(--ebony);
+  color: var(--almond);
+}
+
+.subscribe-form button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--almond);
+  color: var(--black-olive);
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.subscribe-form button:hover {
+  background-color: var(--khaki);
+  color: var(--black-olive);
+}
+
+.disclaimer {
+  font-size: 0.875rem;
+  color: var(--khaki);
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-family: 'MiFuente', sans-serif;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.footer-links li {
+  margin: 0 10px;
+}
+
+.footer-links a {
+  color: var(--almond);
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: var(--khaki);
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-section {
+    max-width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+  }
+
+  .footer-links li {
+    margin: 5px 0;
+  }
+}

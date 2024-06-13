@@ -1,21 +1,37 @@
-<div class="container-fluid d-flex justify-content-center align-items-center vh-100">
-  <div class="card shadow p-4">
-    <h2 class="text-center mb-4">Iniciar sesión</h2>
-    <form (keydown.enter)="login()">
-      <div class="form-group" [class.error]="showErrorAnimation"> <!-- Aplicar clase de animación de error -->
-        <label for="email" class="text-muted">Correo electrónico</label>
-        <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo electrónico" [(ngModel)]="email">
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100 bg-dark-olive">
+  <div class="row w-100">
+    <div class="col-12 d-flex align-items-center justify-content-center d-md-none">
+      <div class="login-brand text-center">
+        <img src="../../images/logo.png" alt="Logo" class="img-fluid mb-3 logo-small">
       </div>
-      <div class="form-group" [class.error]="showErrorAnimation"> <!-- Aplicar clase de animación de error -->
-        <label for="password" class="text-muted">Contraseña</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su contraseña" [(ngModel)]="password">
+    </div>
+    <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center">
+      <div class="login-brand text-center">
+        <img src="../../images/logo.png" alt="Logo" class="img-fluid mb-3 logo-small">
       </div>
-      <button type="button" class="btn btn-primary btn-block" (click)="login()">Iniciar sesión</button>
-      <!-- Añadir mensaje de error -->
-      <div *ngIf="errorMessage" class="text-danger mt-2">{{ errorMessage }}</div>
-      <div class="text-center mt-3">
-        <a routerLink="/register" class="btn btn-link">¿No tienes una cuenta? Regístrate</a>
+    </div>
+    <div class="col-md-1 d-none d-md-flex align-items-center justify-content-center">
+      <div class="divider"></div>
+    </div>
+    <div class="col-md-5 d-flex justify-content-center align-items-center">
+      <div class="card shadow-lg p-4 login-card bg-ebony">
+        <h2 class="text-center mb-4 text-light">Iniciar sesion</h2>
+        <form (keydown.enter)="login()">
+          <div class="form-group" [class.error]="showErrorAnimation">
+            <label for="email" class="text-muted">Correo electronico</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo electronico" [(ngModel)]="email">
+          </div>
+          <div class="form-group" [class.error]="showErrorAnimation">
+            <label for="password" class="text-muted">Contrasena</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su contrasena" [(ngModel)]="password">
+          </div>
+          <button type="button" class="btn btn-primary btn-block" (click)="login()">Iniciar sesion</button>
+          <div *ngIf="errorMessage" class="text-danger mt-2">{{ errorMessage }}</div>
+          <div class="text-center mt-3">
+            <a routerLink="/register" class="btn btn-link">¿No tienes una cuenta? Registrate</a>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   </div>
 </div>

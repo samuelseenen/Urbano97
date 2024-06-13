@@ -1,45 +1,50 @@
+// Se importan modulos y componentes creados
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Importa ReactiveFormsModule
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarModule } from 'angular-calendar';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { BookingComponent } from './booking/booking.component';
 import { HomeComponent } from './home/home.component'; 
 import { ServicesComponent } from './services/services.component';
 import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
-import { NavbarComponent } from './navbar/navbar.component';  // Importa el nuevo componente de navbar
-import { RegisterComponent } from './register/register.component'; // Importa el componente de registro
-import { ReservationsComponent } from './reservations/reservations.component'; // Importa el componente de reservaciones
-
+import { NavbarComponent } from './navbar/navbar.component';
+import { RegisterComponent } from './register/register.component';
+import { ReservationsComponent } from './reservations/reservations.component';
+import { ChangeCredentialsComponent } from './change-credentials/change-credentials.component';
+import { FooterComponent } from './footer/footer.component';
 import { AuthService } from './auth.service';  // Importa el servicio de autenticación
 import { AuthGuard } from './auth.guard';  // Importa el guard de autenticación
 import { AppRoutingModule } from './app.routes';  // Importa el módulo de rutas
 
 @NgModule({
   declarations: [
+    //Se declaran los componentes
     AppComponent,
     LoginComponent,
     BookingComponent,
     HomeComponent,
     ServicesComponent,
     QrScannerComponent,
-    NavbarComponent,  // Declara el nuevo componente de navbar
+    NavbarComponent,
     RegisterComponent,
-    ReservationsComponent // Declara el componente de registro
+    ReservationsComponent,
+    ChangeCredentialsComponent,
+    FooterComponent
   ],
   imports: [
+    //Se importan los modulos
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule, // Añade ReactiveFormsModule
+    ReactiveFormsModule,
     FullCalendarModule,
     HttpClientModule,
-    AppRoutingModule,  // Importa el módulo de rutas
+    AppRoutingModule,
     CalendarModule.forRoot({
       provide: 'locale',
       useValue: 'es'
@@ -48,8 +53,9 @@ import { AppRoutingModule } from './app.routes';  // Importa el módulo de rutas
   ],
   providers: [
     provideAnimationsAsync(),
-    AuthService,  // Provee el servicio de autenticación
-    AuthGuard  // Provee el guard de autenticación
+    //Se añaden los servicios de autenticacion
+    AuthService,  
+    AuthGuard  
   ],
   bootstrap: [AppComponent]
 })

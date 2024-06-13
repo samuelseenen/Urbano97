@@ -1,10 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
-/* angular-cli file: src/styles.css */
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
-@import "./../node_modules/bootstrap/dist/css/bootstrap.css";
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
 
+@font-face {
+    font-family: 'MiFuente';
+    src: url('../src/font/Bebas-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
+html, body {
+    height: 100%;
+}
 
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+    margin: 0;
+    font-family: 'MiFuente', sans-serif;
+}

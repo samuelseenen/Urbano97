@@ -1,15 +1,33 @@
-<div class="container">
-    <h1>Servicios</h1>
-    <div class="row">
-      <div class="col-md-4" *ngFor="let servicio of servicios">
-        <div class="card">
-          <img [src]="servicio.imagen" class="card-img-top" alt="Imagen de {{ servicio.nombre }}">
-          <div class="card-body">
-            <h5 class="card-title">{{ servicio.nombre }}</h5>
-            <p class="card-text">{{ servicio.descripcion }}</p>
-          </div>
-        </div>
+<div class="container-fluid services-section">
+  <h2 class="section-title text-center">Servicios de Nuestra Barberia</h2>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="service-category">
+        <h3 class="category-title">Servicios</h3>
+        <ul class="service-list">
+          <li *ngFor="let servicio of servicios">
+            <span>{{ servicio.nombre }}</span>
+            <span>{{ servicio.precio | currency:'EUR':'symbol' }}</span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
-  
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-4 d-flex align-items-stretch">
+      <div class="schedule flex-fill">
+        <h4>Horario</h4>
+        <p>Lunes a Viernes: 10 AM - 7 PM</p>
+        <p>Sabado: 10 AM - 5 PM</p>
+        <p>Domingo: Cerrado</p>
+      </div>
+    </div>
+    <div class="col-md-4 d-flex align-items-stretch">
+      <div class="appointments flex-fill">
+        <h4>Citas</h4>
+        <p>Telefono: +34 678653789</p>
+        <p>Email: urbano97&#64;gmail.com</p>
+      </div>
+    </div>
+  </div>
+</div>

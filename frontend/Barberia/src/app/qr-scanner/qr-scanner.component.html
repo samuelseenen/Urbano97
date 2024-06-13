@@ -1,17 +1,18 @@
-
-<!-- codigo buieno -->
-<div class="scanner-container" *ngIf="showScanner">
-  <div class="scanner-frame">
-    <zxing-scanner [formats]="formats" (scanSuccess)="onScanSuccess($event)"></zxing-scanner>
+<div class="container text-center mt-5">
+  <h2>Escanear Codigo QR</h2>
+  <button class="scan-button" (click)="startScanning()" *ngIf="!showScanner">
+    <img src="../../images/camara.png" alt="Icono de Camara" class="icon-img">
+  </button>
+  <div class="scanner-container" *ngIf="showScanner">
+    <div class="scanner-frame">
+      <zxing-scanner [formats]="formats" (scanSuccess)="onScanSuccess($event)"></zxing-scanner>
+    </div>
+  </div>
+  <div *ngIf="decryptedResult" class="result-container">
+    <p>Datos de la reserva:</p>
+    <p>Nombre cliente: {{ decryptedResult.nombreCliente }} {{ decryptedResult.apellidoCliente }}</p>
+    <p>Nombre peluquero: {{ decryptedResult.nombrePeluquero }}</p>
+    <p>Fecha: {{ decryptedResult.fecha }}</p>
+    <p>Hora: {{ decryptedResult.hora }}</p>
   </div>
 </div>
-
-<div *ngIf="decryptedResult">
-  <p>Datos de la reserva:</p>
-  <p>Nombre cliente: {{ decryptedResult.nombreCliente }} {{ decryptedResult.apellidoCliente }}</p>
-  <p>Nombre peluquero: {{ decryptedResult.nombrePeluquero }}</p>
-  <p>Fecha: {{ decryptedResult.fecha }}</p>
-  <p>Hora: {{ decryptedResult.hora }}</p>
-</div>
-
-<button class="scan-button" (click)="startScanning()" *ngIf="!showScanner">Escanear código QR</button>

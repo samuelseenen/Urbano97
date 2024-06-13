@@ -1,28 +1,211 @@
-
-<div class="container">
-  <!-- Fotos de la peluquería -->
-  <div class="peluqueria-images">
-    <img class="peluqueria-image" src="url_de_la_imagen_1.jpg" alt="Peluqueria 1">
-    <img class="peluqueria-image" src="url_de_la_imagen_2.jpg" alt="Peluqueria 2">
-    <img class="peluqueria-image" src="url_de_la_imagen_3.jpg" alt="Peluqueria 3">
-  </div>
-
-  <!-- Servicios destacados -->
-  <div class="destacados-container">
-    <div class="destacado">
-      <h3>Servicio 1</h3>
-      <p>Descripcion del servicio 1...</p>
+<div class="container-fluid p-0">
+  <!-- Sección Hero -->
+  <section id="hero" class="hero d-flex align-items-center text-light p-0 fade-in">
+    <div id="heroCarousel" class="carousel slide w-100" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="../../images/carrusel.jpg" class="d-block w-100" alt="Imagen Hero 1">
+        </div>
+        <div class="carousel-item">
+          <img src="../../images/carrusel2.jpg" class="d-block w-100" alt="Imagen Hero 2">
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Anterior</span>
+      </a>
+      <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Siguiente</span>
+      </a>
     </div>
-    <div class="destacado">
-      <h3>Servicio 2</h3>
-      <p>Descripción del servicio 2...</p>
+    <div class="hero-content position-absolute w-100 text-center">
+      <h2 class="display-4">ELEVA TU NIVEL AL INSTANTE</h2>
+      <button class="btn btn-primary mt-3" routerLink="/booking">RESERVAR AHORA</button>
     </div>
-    <div class="destacado">
-      <h3>Servicio 3</h3>
-      <p>Descripción del servicio 3...</p>
-    </div>
-  </div>
+  </section>
 
-  <!-- Botón de reserva -->
-  <button class="btn reserva-button">Hacer reserva</button>
+  <!-- Sección Servicios -->
+  <section class="services py-5 fade-in">
+    <div class="container">
+      <div class="header d-flex align-items-center justify-content-center mb-3">
+        <div class="line"></div>
+        <h2 class="section-title text-center text-light">Nuestros Servicios</h2>
+      </div>
+      <p class="text-center text-light mb-5">Disfruta de una variedad de nuestros mejores servicios que aumentaran tu valor al instante</p>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="service-card p-4">
+            <div class="icon-circle mb-3">
+              <img src="../../images/haircut.png" alt="Corte Clasico" class="service-icon">
+            </div>
+            <div class="service-item">
+              <h3 class="text-light"><strong>Corte Clasico</strong></h3>
+              <span class="service-price">20 €</span>
+            </div>
+            <p class="text-light">Un corte clasico de barberia, limpio y elegante, que resalta la masculinidad con lineas definidas y estilo atemporal.</p>
+            <div class="service-item">
+              <h3 class="text-light"><strong>Corte de Lujo</strong></h3>
+              <span class="service-price">40 €</span>
+            </div>
+            <p class="text-light">Un corte de lujo, sofisticado y exclusivo, que combina tecnicas avanzadas y un acabado impecable para un look distinguido.</p>
+            <div class="service-item">
+              <h3 class="text-light"><strong>Corte para Ninos</strong></h3>
+              <span class="service-price">15 €</span>
+            </div>
+            <p class="text-light">Un corte para niños, moderno y divertido, con un estilo fresco y facil de mantener que hace sonreir a los pequeños.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="service-card p-4">
+            <div class="icon-circle mb-3">
+              <img src="../../images/barba.png" alt="Recorte de Barba" class="service-icon">
+            </div>
+            <div class="service-item">
+              <h3 class="text-light"><strong>Recorte de Barba</strong></h3>
+              <span class="service-price">15 €</span>
+            </div>
+            <p class="text-light">Un recorte de barba, preciso y pulido, que define contornos y proporciona un acabado impecable para una apariencia elegante.</p>
+            <div class="service-item">
+              <h3 class="text-light"><strong>Afeitado con Toalla Caliente</strong></h3>
+              <span class="service-price">30 €</span>
+            </div>
+            <p class="text-light">Un afeitado con toalla caliente, relajante y revitalizante, que suaviza la piel y proporciona una experiencia de lujo inigualable.</p>
+            <div class="service-item">
+              <h3 class="text-light"><strong>Recorte de Bigote</strong></h3>
+              <span class="service-price">15 €</span>
+            </div>
+            <p class="text-light">Un recorte de bigote, meticuloso y estilizado, que resalta las facciones y ofrece un look pulido y sofisticado.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="service-card p-4">
+            <div class="icon-circle mb-3">
+              <img src="../../images/color.png" alt="Color de Cabello" class="service-icon">
+            </div>
+            <div class="service-item">
+              <h3 class="text-light"><strong>Color de Cabello</strong></h3>
+              <span class="service-price">15 €</span>
+            </div>
+            <p class="text-light">Un color de cabello, vibrante y personalizado, que realza tu estilo con tonos únicos y un acabado brillante.</p>
+            <div class="service-item">
+              <h3 class="text-light"><strong>Facial</strong></h3>
+              <span class="service-price">15 €</span>
+            </div>
+            <p class="text-light">Un tratamiento facial, rejuvenecedor y nutritivo, que limpia profundamente la piel y revitaliza tu rostro con un brillo saludable.</p>
+            <div class="service-item">
+              <h3 class="text-light"><strong>Lavado de Cabello</strong></h3>
+              <span class="service-price">10 €</span>
+            </div>
+            <p class="text-light">Un lavado de cabello, refrescante y revitalizante, que deja tu pelo limpio, suave y con un aroma agradable.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Sección Barberos -->
+  <section class="barbers py-5 bg-ebony text-light fade-in">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7">
+          <div class="row">
+            <div class="col-6 mb-4">
+              <img src="../../images/barbero1.jpg" alt="Barbero 1" class="img-fluid barber-img">
+            </div>
+            <div class="col-6 mb-4">
+              <img src="../../images/barbero2.jpg" alt="Barbero 2" class="img-fluid barber-img">
+            </div>
+            <div class="col-6 mb-4">
+              <img src="../../images/barbero3.jpg" alt="Barbero 3" class="img-fluid barber-img">
+            </div>
+            <div class="col-6 mb-4">
+              <img src="../../images/barbero4.jpg" alt="Barbero 4" class="img-fluid barber-img">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="row">
+            <div class="col-12">
+              <h2 class="section-title d-flex align-items-center">
+                Nuestros Barberos
+                <hr class="flex-grow-1 ml-3 divider">
+              </h2>
+            </div>
+            <div class="col-12 d-flex align-items-center">
+              <div class="barber-info-card p-4 w-100">
+                <h3>Samuel Senen Lopez</h3>
+                <p>samuelbarber&#64;gmail.com</p>
+                <p>Certificados / Premios</p>
+                <ul>
+                  <li>2019, Barbero del a&ntilde;o por la Barber Association</li>
+                  <li>2018, Mejor Barbero por Official Cut 2020</li>
+                  <li>2017, Mejor Barbero por Official Cut 2022</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección Testimonios -->
+  <section class="testimonials py-5 fade-in">
+    <div class="container position-relative">
+      <div class="header d-flex align-items-center justify-content-between mb-3">
+        <div class="line"></div>
+        <h2 class="section-title text-light text-center mx-auto">Lo que dicen nuestros clientes</h2>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <p class="subtitle text-light">Lo que los clientes piensan de nosotros</p>
+        <div class="arrow-container d-flex align-items-center">
+          <div class="arrow left">
+            <img src="../../images/izquierda.png" alt="Flecha Izquierda">
+          </div>
+          <div class="arrow right">
+            <img src="../../images/derecha.png" alt="Flecha Derecha">
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-carousel d-flex overflow-hidden">
+        <div class="testimonial-item p-4 bg-ebony text-light mx-2">
+          <img src="../../images/persona1.webp" alt="John Moore" class="img-fluid rounded-circle mb-2">
+          <h3>Juan Andres</h3>
+          <p>★★★★★</p>
+          <p>Excelente servicio y atencion al detalle. Sali con el mejor corte de mi vida. ¡Altamente recomendado!</p>
+        </div>
+        <div class="testimonial-item p-4 bg-ebony text-light mx-2">
+          <img src="../../images/persona2.webp" alt="Robbie Jones" class="img-fluid rounded-circle mb-2">
+          <h3>Pedro Rosas</h3>
+          <p>★★★★★</p>
+          <p>El ambiente es genial y los barberos son verdaderos profesionales. Mi barba nunca ha lucido mejor.</p>
+        </div>
+        <div class="testimonial-item p-4 bg-ebony text-light mx-2">
+          <img src="../../images/persona3.webp" alt="Robbie Jones" class="img-fluid rounded-circle mb-2">
+          <h3>Marga Perez</h3>
+          <p>★★★★★</p>
+          <p>Mi hijo adoró su nuevo corte. El personal es muy amigable con los niños y hacen un trabajo increible.</p>
+        </div>
+        <div class="testimonial-item p-4 bg-ebony text-light mx-2">
+          <img src="../../images/persona4.webp" alt="Robbie Jones" class="img-fluid rounded-circle mb-2">
+          <h3>Pedro de Manuel</h3>
+          <p>★★★★★</p>
+          <p>La experiencia del afeitado con toalla caliente fue increíblemente relajante. Definitivamente volvere.</p>
+        </div>
+        <div class="testimonial-item p-4 bg-ebony text-light mx-2">
+          <img src="../../images/persona3.webp" alt="Robbie Jones" class="img-fluid rounded-circle mb-2">
+          <h3>Marcos Ramirez</h3>
+          <p>★★★★★</p>
+          <p>El recorte de bigote fue perfecto. Exactamente lo que queria. Un lugar de primera clase.</p>
+        </div>
+        <div class="testimonial-item p-4 bg-ebony text-light mx-2">
+          <img src="../../images/persona1.webp" alt="Robbie Jones" class="img-fluid rounded-circle mb-2">
+          <h3>Raul Lopez</h3>
+          <p>★★★★★</p>
+          <p>El tratamiento facial dejo mi piel suave y revitalizada. Un servicio de lujo que vale la pena cada euro.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
