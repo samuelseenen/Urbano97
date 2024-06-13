@@ -1,0 +1,22 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Environment variable files
+.env
+dotenv.env
+
+# Build output
+dist/
+build/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Optional npm cache directory
+.npm
