@@ -1,49 +1,101 @@
-# Urbano97 - Proyecto de Barbería
+# Urbano97 · Reservas para barbería
 
-Este es un proyecto de barbería que utiliza Node.js para el backend y Angular para el frontend. A continuación, se detallan los pasos necesarios para configurar y ejecutar el proyecto en un entorno local.
+Aplicación web para pedir cita en una barbería. Fue mi proyecto de fin de ciclo de Desarrollo de Aplicaciones Web (2024) y la hice de principio a fin: el frontend en Angular, la API en Node.js con Express y la base de datos en MySQL.
 
-## Requisitos
+La idea es sencilla: el cliente reserva desde la web, recibe un código QR por email y, al llegar a la barbería, el personal escanea ese QR para comprobar la cita.
 
-### Instalación de Node.js y npm
+## Qué se puede hacer
 
-1. **Node.js**: Ve al sitio oficial de Node.js [https://nodejs.org](https://nodejs.org) y descarga el instalador adecuado para tu sistema operativo. Sigue las instrucciones para completar la instalación.
+**Como cliente**
 
-2. **npm**: npm se instala automáticamente con Node.js. Puedes verificar la instalación ejecutando los siguientes comandos en tu terminal:
+- Crear una cuenta e iniciar sesión.
+- Ver los servicios de la barbería.
+- Reservar una cita: elegir el día en un calendario, el peluquero y una de sus horas libres. Las horas ya ocupadas no aparecen.
+- Recibir por email un código QR con los datos de la reserva.
+- Consultar mis reservas, con su estado (pendiente o terminada), y cancelarlas.
+- Cambiar el email o la contraseña de la cuenta.
+
+**En la barbería**
+
+- Escanear con la cámara el QR que trae el cliente y ver al momento quién es, con qué peluquero tiene la cita, el día y la hora.
+- Con una cuenta de administrador, ver las reservas de todos los clientes y cancelar cualquiera.
+
+## Cómo funciona el código QR
+
+1. Al confirmar una reserva, el servidor junta sus datos (peluquero, cliente, fecha y hora) y los cifra con AES-256.
+2. Con ese texto cifrado genera un código QR y se lo envía al cliente por email con Nodemailer.
+3. En la barbería, el lector de QR de la aplicación manda el contenido al servidor, que lo descifra y devuelve los datos de la cita.
+
+Como el QR solo contiene datos cifrados, no se puede leer ni falsificar sin la clave del servidor.
+
+## Tecnologías
+
+| Parte | Tecnologías |
+|---|---|
+| Frontend | Angular 17, TypeScript, Bootstrap 5, FullCalendar, ZXing (lector de QR) |
+| Backend | Node.js, Express, bcrypt, crypto (AES-256), qrcode, Nodemailer |
+| Base de datos | MySQL |
+
+Las contraseñas se guardan cifradas con bcrypt y las páginas privadas del frontend están protegidas con un guard de Angular.
+
+## Estructura
+
+```
+backend/
+  server.js            Servidor Express y conexión a MySQL
+  routes/              Registro, login, disponibilidad, reservas, cancelación y cambio de credenciales
+frontend/Barberia/
+  src/app/             Componentes: inicio, servicios, reservar, mis reservas, lector QR, login, registro…
+urbano97.sql           Estructura de la base de datos y datos de ejemplo
+```
+
+La base de datos tiene cuatro tablas: `clientes`, `peluqueros`, `horas_disponibles` y `reservas`.
+
+## Ponerlo en marcha en local
+
+**Requisitos:** Node.js, MySQL (por ejemplo con XAMPP) y Angular CLI (`npm install -g @angular/cli`).
+
+1. **Base de datos:** crea una base de datos e importa `urbano97.sql`.
+2. **Variables de entorno:** crea el archivo `backend/dotenv.env` con:
+
+   ```
+   DB_HOST=localhost
+   DB_USER=tu_usuario
+   DB_PASSWORD=tu_contraseña
+   DB_NAME=urbano97
+   EMAIL_USER=cuenta_de_gmail_para_enviar_los_qr
+   EMAIL_PASS=contraseña_de_aplicación_de_gmail
+   ```
+
+3. **Backend:**
 
    ```bash
-   node -v
-   npm -v
+   cd backend
+   npm install
+   node server.js
+   ```
 
-3. **Angular CLI**: Para trabajar con el frontend de Angular, necesitas instalar Angular CLI. Ejecuta el siguiente comando en tu terminal:
+   La API queda en `http://localhost:3000`. La primera vez se genera automáticamente la clave de cifrado de los QR en `backend/encryptionKey.txt`.
 
-npm install -g @angular/cli
+4. **Frontend**, en otra terminal:
 
-Verifica la instalación ejecutando:
+   ```bash
+   cd frontend/Barberia
+   npm install
+   ng serve
+   ```
 
-ng version
+   Abre `http://localhost:4200`.
 
-4. **Instalar dependencias del backend**: Ve al directorio del backend y ejecuta el siguiente comando para instalar las dependencias necesarias:
+## Qué mejoraría hoy
 
-cd backend
-npm install
+Lo hice mientras aprendía y, mirándolo ahora, cambiaría algunas cosas:
 
-5. **Declarar el path de node.js**: Para asegurarte de que Node.js y npm funcionen correctamente, necesitas agregar Node.js al PATH de tu sistema.
+- **Sesiones con tokens (JWT) en el servidor.** Ahora la sesión solo se guarda en el frontend y la API identifica al usuario por el email que recibe, así que no protege las rutas por sí misma.
+- **Un vector de inicialización (IV) aleatorio para cada QR**, en lugar de uno fijo.
+- **Una única conexión a la base de datos compartida** por todas las rutas, en lugar de abrir una en cada archivo.
+- **Despliegue online**, para que se pueda probar sin instalar nada.
 
-.Abre el Panel de Control.
-.Ve a Sistema y Seguridad > Sistema > Configuración avanzada del sistema.
-.En la pestaña Opciones avanzadas, haz clic en Variables de entorno.
-.En Variables del sistema, busca la variable Path y selecciónala. Luego, haz clic en Editar.
-.Agrega la ruta del directorio de instalación de Node.js al final del valor de la variable. La ruta típica es C:\Program Files\nodejs\.
-.Haz clic en Aceptar para cerrar todas las ventanas.
+## Autor
 
-6. **Iniciar el servidor de node.js**: Ejecuta el siguiente comando para iniciar el servidor backend:
-
-node server.js
-
-7. **Instalar dependencias del frontend**: Ve al directorio del frontend en este caso es barberia dentro de la carpeta frontend y ejecuta el siguiente comando para instalar las dependencias necesarias:
-
-npm install
-
-7. **Iniciar el servidor del frontend (Angular)**: Ejecuta el siguiente comando para iniciar el servidor frontend:
-
-ng serve
+**Samuel Senén López** · [samuelsenen.dev](https://samuelsenen.dev) · [GitHub](https://github.com/samuelseenen)
